@@ -28,6 +28,7 @@ export default function TextArea(props) {
     var copyText = document.getElementById("my-box");
     copyText.select();
     navigator.clipboard.writeText(copyText.value);
+    document.getSelection().removeAllRanges();
     props.showalert("copied to clipboard", "success")
   };
 
@@ -43,26 +44,26 @@ export default function TextArea(props) {
         <h1 style={{color: props.mode === 'dark' ? 'white' : '#031632'}}>{props.heading}</h1>
         <div className="mb-3 my-4" style={{color: props.mode === 'light' ? '#031632' : 'black'}}>
           <textarea
-            className="form-control" style={{backgroundColor: props.mode === 'light' ? 'white' : 'grey'}}
+            className="form-control" style={{backgroundColor: props.mode === 'light' ? 'white' : '#4bdd90'}}
             value={text}
             onChange={handleOnChange}
             id="my-box"
             rows="8"
           ></textarea>
         </div>
-        <button className="btn btn-dark mx-1" onClick={handleUpClick}>
+        <button disabled = {text.length===0} className="btn btn-secondary mx-1 my-1" onClick={handleUpClick}>
           UPPERCASE
         </button>
-        <button className="btn btn-secondary mx-1" onClick={handleLoClick}>
+        <button disabled = {text.length===0} className="btn btn-secondary mx-1 my-1" onClick={handleLoClick}>
           LOWERCASE
         </button>
-        <button className="btn btn-info mx-1" onClick={handleSpaceText}>
+        <button disabled = {text.length===0} className="btn btn-info mx-1 my-1" onClick={handleSpaceText}>
           REMOVE EXTRA SPACES
         </button>
-        <button className="btn btn-secondary mx-1" onClick={handleCopyText}>
+        <button disabled = {text.length===0} className="btn btn-secondary mx-1 my-1" onClick={handleCopyText}>
           COPY
         </button>
-        <button className="btn btn-danger mx-1" onClick={handleClearText}>
+        <button disabled = {text.length===0} className="btn btn-danger mx-1 my-1" onClick={handleClearText}>
           CLEAR
         </button>
       </div>
@@ -70,11 +71,11 @@ export default function TextArea(props) {
       <div className="container my-2" style = {{color: props.mode === 'dark' ? 'white' : '#14057e'}}>
         <h2>summary :</h2>
         <p>
-          No of words : {text.split(" ").length} and alphabets : {text.length}
+          No of words : {text.split(/\s+/).filter((element)=>{return element.length !==0}).length} and alphabets : {text.split("").length}
         </p>
         <h3>preview :</h3>
-        <p>{text.length>0?text:"Please enter to check preview"}</p>
-        <h3>Average time to read : {0.008 * text.length}</h3>
+        <p>{text.length>0?text:"Nothing to preview!!"}</p>
+        <h3>Average time to read : {0.008 * text.split(" ").filter((element)=>{return element.length !==0}).length}</h3>
       </div>
     </>
   );
